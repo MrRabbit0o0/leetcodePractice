@@ -1,10 +1,8 @@
 #include <iostream>
-#include <sstream>
 #include <vector>
 
 using std::vector;
 using std::string;
-using std::stringstream;
 
 int kmp(string str, string word){
     //Craete the table T to store the element of word location
