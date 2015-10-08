@@ -28,7 +28,13 @@ public:
             int term1, term2;
             term1 = (mid - 1) / 2;
             term2= mid / 2;
-            vector<int> n1(nums1), n2(nums2);
+            vector<int> n1, n2;
+            for (size_t i = 0; i != nums1.size(); ++i){
+                n1.push_back(nums1[i]);
+            }
+            for (size_t i = 0; i != nums2.size(); ++i){
+                n2.push_back(nums2[i]);
+            }
             return (find(nums1, nums2, term1) + find(n1, n2, term2))/2;
             
         } else {
