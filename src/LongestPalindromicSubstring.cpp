@@ -152,14 +152,7 @@ public:
                 maxlen = palindrome_lenth[i];
             }
         }
-        string result;
-        if (maxindex%2 != 0) {
-            int c = maxindex/2+1;
-            result = s.substr(c-maxlen/2, maxlen-1);
-        } else {
-            int c = maxindex/2;
-            result = s.substr(c-(maxlen-1)/2, maxlen-1);
-        }
+        string result = s.substr(maxindex/2-maxlen/2, maxlen);
         
         return result;
     }
@@ -173,6 +166,7 @@ public:
                 break;
             }
         }
+        rid -= 1;
         return rid;
     }
 };
