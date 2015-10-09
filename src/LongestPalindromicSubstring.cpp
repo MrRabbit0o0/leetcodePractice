@@ -117,3 +117,62 @@ public:
         return res;
     }
 };
+
+class Solution3 {
+    //Manacher algorithm, time: O(N), space:O(N)
+public:
+    string longestPalindrome(string s) {
+        int size = (int) s.size();
+        if (size <= 1) {
+            return s;
+        }
+        string obstring("#");
+        for (int i = 0; i != size; ++i) {
+            obstring += s.substr(i, 1) + "#";
+        }
+        vector<int> palindrome_lenth(obstring.size(), 0);
+        palindrome_lenth[1] = 1;
+        int index(1), rid(1), dis(0), mirror(0);
+        int maxindex(0), maxlen(0);
+        for (int i = 2; i != obstring.size(); ++i) {
+            mirror = index*2 - i;
+            if (i <= index+rid) {
+                dis = palindrome_lenth[mirror];
+                if (dis+i <= rid) {
+                    palindrome_lenth[i] = dis;
+                    continue;
+                }
+            }
+            int newlen = find(i, obstring);
+            index = i;
+            palindrome_lenth[i] = newlen;
+            rid = newlen;
+            if (palindrome_lenth[i] > maxlen) {
+                maxindex = i;
+                maxlen = palindrome_lenth[i];
+            }
+        }
+        string result;
+        if (maxindex%2 != 0) {
+            int c = maxindex/2+1;
+            result = s.substr(c-maxlen/2, maxlen-1);
+        } else {
+            int c = maxindex/2;
+            result = s.substr(c-(maxlen-1)/2, maxlen-1);
+        }
+        
+        return result;
+    }
+    
+    int find(int center, string& s){
+        int rid = 0;
+        while ((center+rid+1)<=s.size() && (center-rid) >= 0) {
+            if (s[center+rid] == s[center-rid]) {
+                ++rid;
+            } else {
+                break;
+            }
+        }
+        return rid;
+    }
+};
