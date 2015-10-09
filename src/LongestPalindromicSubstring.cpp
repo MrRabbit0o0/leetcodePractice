@@ -4,7 +4,7 @@ using std::vector;
 using std::string;
 
 class Solution1 {
-// Try a DP solution
+    // Try a DP solution
 public:
     string longestPalindrome(string s) {
         if (s.size() <= 1) {
@@ -69,5 +69,51 @@ public:
             }
             return;
         }
+    }
+};
+
+class Solution2 {
+    // another search method, time: O(N^2), space: O(1)
+public:
+    string longestPalindrome(string s) {
+        int size = (int) s.size();
+        if (size <= 1) {
+            return s;
+        }
+        vector<int> center(1, 0);
+        string palidromic;
+        for (int i = 0 ; i != size; ++i) {
+            center[0] = i;
+            string temp = find(center, s);
+            if (temp.size() > palidromic.size()) {
+                palidromic = temp;
+            }
+        }
+        center.push_back(0);
+        for (int i = 0; i != size-1; ++i) {
+            center[0] = i;
+            center[1] = i+1;
+            string temp = find(center, s);
+            if (temp.size() > palidromic.size()) {
+                palidromic = temp;
+            }
+        }
+        return palidromic;
+    }
+    
+    string find(vector<int> center, string s){
+        int size = (int) center.size();
+        int i(center.front()-1), j(center.front()+size);
+        string res = s.substr(center.front(), center.front()+size);
+        while (i > 0 && j < s.size()) {
+            if (s[i] == s[j]) {
+                res = s.substr(i, j+1);
+                --i;
+                ++j;
+            } else {
+                break;
+            }
+        }
+        return res;
     }
 };
